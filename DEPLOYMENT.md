@@ -18,8 +18,8 @@
 
 | Mục | Nội dung |
 |-----|----------|
-| Public URL | http://localhost:8000 (local fallback) |
-| Platform | Docker Compose (local fallback) |
+| Public URL | https://day12-agent-production-67b3.up.railway.app |
+| Platform | Railway |
 | Ngày deploy | 2026-09-28 |
 
 ## Biến Môi Trường Đã Set Trên Cloud
@@ -39,18 +39,18 @@ Ghi tên biến và **nguồn giá trị**, không ghi giá trị:
 
 ```bash
 # 1. Liveness — mong đợi 200 {"status":"ok"}
-curl -i http://localhost:8000/health
+curl -i https://day12-agent-production-67b3.up.railway.app/health
 
 # 2. Readiness — mong đợi 200 {"status":"ready"} (đã nối được Redis)
-curl -i http://localhost:8000/ready
+curl -i https://day12-agent-production-67b3.up.railway.app/ready
 
 # 3. Không có API key — mong đợi 401
-curl -i -X POST http://localhost:8000/ask \
+curl -i -X POST https://day12-agent-production-67b3.up.railway.app/ask \
   -H "Content-Type: application/json" \
   -d '{"question":"Hello"}'
 
 # 4. Có API key — mong đợi 200 kèm câu trả lời
-curl -i -X POST http://localhost:8000/ask \
+curl -i -X POST https://day12-agent-production-67b3.up.railway.app/ask \
   -H "Content-Type: application/json" \
   -H "X-API-Key: $AGENT_API_KEY" \
   -H "X-User-Id: sv-test" \
@@ -82,10 +82,11 @@ HTTP/1.1 200 OK
 
 ---
 
-## Nếu Dùng Phương Án Dự Phòng
+## Ghi Chú
 
 ```
-Sử dụng phương án dự phòng LOCAL_FALLBACK=true vì chưa có tài khoản cloud platform (Railway/Render).
-Ứng dụng chạy trên Docker Compose tại localhost:8000 với Redis container.
-Tất cả các checkpoint CP1-CP4 đều pass đầy đủ.
+Đã deploy thành công lên Railway.
+Service chạy tại: https://day12-agent-production-67b3.up.railway.app
+Redis: Railway managed Redis instance.
+Tất cả các checkpoint CP1-CP5 đều pass đầy đủ.
 ```
